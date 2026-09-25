@@ -38,21 +38,21 @@ def descriptive_statistics(data: list | np.ndarray) -> dict:
 
     std = np.sqrt(var)
 
-    # 25th percentile
-    idx = (n - 1) * 0.25
-    low = int(idx)
-    high = min(low + 1, n - 1)
-    d = idx - low
+    # Делаем правильные срезы для поиска 25-го и 75-го процентилей
+    if n % 2 != 0:
+        left_data = data[0:mid+1]   # Включаем медиану в левую часть
+        right_data = data[mid:n]    # Включаем медиану в правую часть
+    else:
+        left_data = data[0:mid]     # Делим ровно пополам
+        right_data = data[mid:n]
 
-    perc_25 = data[low] + d * (data[high] - data[low])
+    # 25th percentile
+    left_mid = left_data.size // 2
+    perc_25 = left_data[left_mid] if n % 2 != 0 else (left_data[left_mid] + left_data[left_mid - 1]) / 2
 
     # 75th percentile
-    idx = (n - 1) * 0.75
-    low = int(idx)
-    high = min(low + 1, n - 1)
-    d = idx - low
-
-    perc_75 = data[low] + d * (data[high] - data[low])
+    right_mid = right_data.size // 2
+    perc_75 = right_data[right_mid] if n % 2 != 0 else (right_data[right_mid] + right_data[right_mid - 1]) / 2
 
     # IQR
     iqr = perc_75 - perc_25
@@ -65,3 +65,6 @@ def descriptive_statistics(data: list | np.ndarray) -> dict:
     }
 
     return stats_dict
+
+
+print(descriptive_statistics([1, 2, 4, 4, 4, 4, 5, 6]))
