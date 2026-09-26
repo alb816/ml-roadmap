@@ -8,7 +8,6 @@ deep-ml #10 Calculate Covariance Matrix (Easy, Statistics)
 import numpy as np
 
 
-
 def cov(x: np.ndarray, y: np.ndarray) -> float:
     """Вычисляет ковариацию между двумя векторами."""
 	
@@ -35,7 +34,7 @@ def covariance_matrix_iterative(vectors: np.ndarray) -> np.ndarray:
 
 
 if __name__ == "__main__":
-    # Тестовый набор данных
+    # Тестовый набор данных 
     A = np.array(
         [
             [1, -1, -1, -1],
