@@ -47,4 +47,4 @@ def compute_partial_derivatives(
     elif func_name == "squared_error":
         gradient[0] = 2 * (x - y) # * 1
         gradient[1] = 2 * (x - y) * -1
-    return gradient
+    return tuple(gradient)
