@@ -1,36 +1,28 @@
+"""
+deep-ml #309 Product Rule for Derivatives (Medium, Machine Learning)
+Суть: найти коэффициенты производной произведения полиномов.
+Статус: сдана 27-09-26.
+"""
+
+
 import numpy as np
 
 
 def _poly_der(c):
-    n = len(c)
-    c_der = 0
-
-    for i in range(-1, 0):
-        c_der += ((n-2-i) * c[i]) # * x**(n-2-i)
-    return c_der
- 
+    """Коэффициенты производной: d_j = (j+1) * c[j+1]"""
+    c = np.asarray(c, float)
+    return c[1:] * np.arange(1, len(c))     # cрезается 1-й коэффициент, производная которого равна 0, затем np.arange 
+                                            # формирует степени от 1 до len(c) не включительно. Константа -> пустой массив
+def _mul(a, b):
+    """Произведение многочленов (пустой массив = нулевой многочлен)"""
+    if a.size == 0 or b.size == 0:
+        return np.zeros(max(a.size + b.size - 1, 1))    # возращается массив из нулей
+    return np.convolve(a, b)    # свёрточное произведение коэффициентов, где a.size, b.size = N, M.
+                                # Для n-й позиции итогового массива формула такая:
+                                # sum(a[m] * b[n-m]); m = max(0, n-M+1), ..., min(N-1, n); n = 0, ..., N+M-2
 
 def product_rule_derivative(f_coeffs: list, g_coeffs: list) -> list:
-    """
-    Compute the derivative of the product of two polynomials.
-    
-    Args:
-        f_coeffs: Coefficients of polynomial f, where f_coeffs[i] is the coefficient of x^i
-        g_coeffs: Coefficients of polynomial g, where g_coeffs[i] is the coefficient of x^i
-    
-    Returns:
-        Coefficients of (f*g)' as a list of floats rounded to 4 decimal places
-    """
-    f, g = np.array(f_coeffs, float), np.array(g_coeffs, float)
-    print(_poly_der(f))
-    print(_poly_der(g))
-    print(_poly_der(f) * np.asarray(g_coeffs))
-    print(np.asarray(f_coeffs) * _poly_der(g))
-    return ( _poly_der(f) * np.asarray(g_coeffs)
-           + np.asarray(f_coeffs) * _poly_der(g))
-
-
-
-print(product_rule_derivative(f_coeffs=[1, 2], g_coeffs=[3, 4, 1])) # 1 + 2x -> 2
-                                                                # 3 + 4x -> 4
-                                                                 # der_f * val_g = 
+    f = np.asarray(f_coeffs, float)
+    g = np.asarray(g_coeffs, float)
+    res = _mul(_poly_der(f), g) + _mul(f, _poly_der(g))
+    return np.round(res, 4).tolist()
