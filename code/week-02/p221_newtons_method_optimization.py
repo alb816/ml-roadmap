@@ -7,7 +7,7 @@ def newtons_method_optimization(
 	x0: list[float],
 	tol: float = 1e-6,
 	max_iter: int = 100
-) -> list[float]:
+):
 	"""
 	Find the minimum of a function using Newton's method.
 	
@@ -33,8 +33,9 @@ def newtons_method_optimization(
 	return x
 
 
-def grad(x): return [2 * x[0]]
-def hess(x): return [[2.0]]
-result = newtons_method_optimization(grad, hess, [5.0])
-# print([round(v, 4) for v in result])
-print(result)
+if __name__ == '__main__':
+	def grad(x): return [2 * x[0]]
+	def hess(x): return [[2.0]]
+
+	result = newtons_method_optimization(grad, hess, [5.0, 3, 23])
+	print(result)
