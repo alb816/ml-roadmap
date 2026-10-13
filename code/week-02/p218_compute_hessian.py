@@ -17,10 +17,9 @@ def compute_hessian(f: Callable[[list[float]], float], point: list[float], h: fl
 	n = len(point)
 	H = np.zeros((n, n))
 	E = np.eye(n)
-	f_base = np.asarray(f(point))
 	
 	for i in range(n):
-		H[i, i] = (f(point + h*E[i]) - 2*f_base + f(point - h*E[i])) / h**2
+		H[i, i] = (f(point + h*E[i]) - 2*f(point) + f(point - h*E[i])) / h**2
 		for j in range(i + 1, n):
 			H[i, j] = H[j, i] = (f(point + h*E[i] + h*E[j]) - f(point + h*E[i] - h*E[j]) - 
 			                     f(point - h*E[i] + h*E[j]) + f(point - h*E[i] - h*E[j])) / (4 * h**2)
