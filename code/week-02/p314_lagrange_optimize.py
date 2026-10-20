@@ -24,7 +24,7 @@ def lagrange_optimize(Q: np.ndarray, c: np.ndarray, a: np.ndarray, b: float) -> 
     x_l = np.linalg.solve(A, b)
     x, l = x_l[0:2], x_l[-1]
 
-    objective = 0.5 * np.dot(x.T, np.dot(Q, x)) + np.dot(c.T, x)
+    objective = 0.5 * (x @ Q @ x) + c @ x
     
     return {'x': np.round(x, 4).tolist(), 'lambda':  round(float(l), 4), 'objective': round(float(objective), 4)}
 
