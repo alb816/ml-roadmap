@@ -20,9 +20,8 @@ def jensen_shannon_divergence(P: list[float], Q: list[float]) -> float:
         np.sum(P * np.log(P / M, out=np.zeros_like(P), where=(P > 0))) +
         np.sum(Q * np.log(Q / M, out=np.zeros_like(Q), where=(Q > 0)))
     )
-    
-    return np.clip(jsd, 0.0, np.log(2))
 
+    return np.clip(jsd, 0.0, np.log(2))
 
 
 print(jensen_shannon_divergence([0.5, 0.5], [0.5, 0.5]))
