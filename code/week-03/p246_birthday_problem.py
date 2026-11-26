@@ -22,4 +22,5 @@ def birthday_problem(n: int, days: int = 365) -> float:
     return round(matches_bday, 4)
 
 
-print(birthday_problem(23))
+if __name__ == '__main__':
+    print(birthday_problem(23))
